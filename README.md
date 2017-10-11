@@ -1,4 +1,5 @@
 # [VQMOD] Override Mechanism
+**Opencart**: v.2.1.x, v.2.2.x  
 **Attention**: You have to install `[VQMOD]` for **Opencart** ( https://github.com/vqmod/vqmod/releases ) for this to work!
 
 A nice way to modify OpenCart **without changing the core**.  
