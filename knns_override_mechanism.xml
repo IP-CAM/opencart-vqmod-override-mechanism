@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification
+	xmlns="https://github.com/vqmod/vqmod"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="https://github.com/vqmod/vqmod https://raw.githubusercontent.com/vqmod/vqmod/master/vqmod.xsd">
+	>
+	<id><![CDATA[[VQMOD] Override Mechanism]]></id>
+	<version>1.0.0</version>
+	<vqmver>2.6.3</vqmver>
+	<author>kanenas.net (aka Nikolas Branis) - nbran@kanenas.net</author>
+	<file path="system/" name="startup.php" error="log">
+		<operation error="skip">
+			<search position="replace" offset="16"><![CDATA[function modification($filename) {]]></search>
+			<add><![CDATA[
+function modification($filename) {
+	$mod_dirs = array(
+		DIR_MODIFICATION,
+		dirname(DIR_SYSTEM).'/_override/'			// do this second in case there are other over-rides needed for modules
+	);
+
+	foreach($mod_dirs as $mod) {
+		if (!defined('DIR_CATALOG')) {
+			$file = $mod . 'catalog/' . substr($filename, strlen(DIR_APPLICATION));
+		} else {
+			$file = $mod . 'admin/' .  substr($filename, strlen(DIR_APPLICATION));
+		}
+
+		if (substr($filename, 0, strlen(DIR_SYSTEM)) == DIR_SYSTEM) {
+			$file = $mod . 'system/' . substr($filename, strlen(DIR_SYSTEM));
+		}
+
+		if (is_file($file)) {
+			return $file;
+		}
+	}
+
+	return $filename;
+}
+		]]></add>
+		</operation>
+	</file>
+</modification>
